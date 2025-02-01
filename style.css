@@ -207,7 +207,7 @@ main {
 }
 
 .promo-item:last-child a {
-    color:#fee08b;
+    color:#000000;
 }
 
 .promo-item h3 {
@@ -222,7 +222,7 @@ main {
 }
 
 .promo-item a {
-    color: #fee08b;
+    color: #000000;
     font-weight: 600;
 }
 
