@@ -103,7 +103,7 @@ main {
 }
 
 .section-wrapper {
-    background: #fff;
+    background:  #ccc;
     box-shadow: 3px 3px 30px rgba(0,0,0,0.1);
     padding: 2rem;
     border-radius: 30px;

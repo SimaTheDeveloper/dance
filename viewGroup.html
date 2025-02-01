@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+    <title>Group Page</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .section-wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .flex-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .flex-header h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .tab.active {
+            background-color:#666d74;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #666d74;
+            color: white;
+            font-size: 1rem;
+        }
+
+        td {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .group-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .group-actions button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .group-actions button:hover {
+            background: #0056b3;
+        }
+
+        /* Slide Menu */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #666d74;
+            color: white;
+            padding: 20px;
+            transition: left 0.3s ease-in-out;
+        }
+
+        .slide-menu ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .slide-menu ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #666d74;
+            cursor: pointer;
+        }
+
+        .slide-menu ul li:hover {
+            background:#666d74;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-open {
+            left: 0 !important;
+        }
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Subtle dark background */
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            max-width: 90%;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .modal-content h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal-content label {
+            font-size: 0.95rem;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="info">
+                <p id="dateNow"></p>
+                <p>Hey! Mosima</p>
+                <p>Society Details</p>
+            </div>
+            <div class="img" style="background-image: url(img/user.jpg)" onclick="profileMenu()"></div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="section-wrapper">
+            <div class="flex-header">
+                <h2>Thuso Burial Society</h2>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="group-membership">Group Membership</div>
+                <div class="tab" data-tab="group-overview">Group Overview</div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="group-membership" class="tab-content active">
+                <!-- Group Members Table -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Full Name</th>
+                            <th>Phone</th>
+                            <th>Payments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="img/user.jpg" alt="Member 1" width="40" height="40"></td>
+                            <td>Thuso Mkhize</td>
+                            <td>0812345678</td>
+                            <td class="group-actions"id="viewBtn"><button>View</button></td>
+                            
+                        </tr>
+                        <tr>
+                            <td><img src="img/user.jpg" alt="Member 2" width="40" height="40"></td>
+                            <td>Lebogang Dlamini</td>
+                            <td>0823456789</td>
+                            <td class="group-actions"><button>View</button></td>
+                        </tr>
+                        <tr>
+                            <td><img src="img/user.jpg" alt="Member 3" width="40" height="40"></td>
+                            <td>Michael Zuma</td>
+                            <td>0794567890</td>
+                            <td class="group-actions"><button>View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="group-overview" class="tab-content">
+                <!-- Group Overview -->
+                <h3>Total Members: 3</h3>
+                <h3>Society Balance: R1500.00</h3>
+
+                <!-- Payment Details Table -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment Month</th>
+                            <th>Payment Made</th>
+                            <th>Missed Payments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>January</td>
+                            <td>3</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>February</td>
+                            <td>2</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>March</td>
+                            <td>3</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+   
+    <div class="bottom-nav">
+        <div class="bottom-inner">
+            <div class="bottom-main">
+                <div class="nav-items">
+                    <div class="nav-item"onclick="profileHome()">
+                        <span class="las la-home"></span>
+                        <p>Home</p>
+                    </div>
+                    <div class="nav-item">
+                        <span class="lab la-cc-amazon-pay"></span>
+                        <p>Pay</p>
+                    </div>
+                </div>
+                <div class="nav-item-main">
+                    <div>
+                        <span class="las la-users"></span>
+                    </div>
+                </div>
+                <div class="nav-items">
+                    <div class="nav-item">
+                        <span class="las la-object-group"></span>
+                        <p>Events</p>
+                    </div>
+                    <div class="nav-item" onclick="profileMenu()">
+                        <span class="las la-user-check"></span>
+                        
+                        <p>claim</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Menu -->
+    <div class="slide-menu" id="menu">
+        <span class="las la-times close-menu" onclick="toggleMenu()"></span>
+        <ul>
+            <li>Home</li>
+            <li>Profile</li>
+            <li>Settings</li>
+            <li>Logout</li>
+        </ul>
+    </div>
+
+    
+    <!-- Edit Profile Modal -->
+    <div id="viewPaymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Payment history</h3>
+            <h5>Mosima Kobe</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment Month</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>January</td>
+                        <td>R 300.00</td>
+                        <td>10/4/2024</td>
+                    </tr>
+                    <tr>
+                        <td>February</td>
+                        <td>R 600.00</td>
+                        <td>1/2/2024</td>
+                    </tr>
+                    <tr>
+                        <td>March</td>
+                        <td>R 600.00</td>
+                        <td>1/3/2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".tab").click(function(){
+                var tabId = $(this).data("tab");
+
+                $(".tab").removeClass("active");
+                $(this).addClass("active");
+
+                $(".tab-content").removeClass("active");
+                $("#" + tabId).addClass("active");
+            });
+
+            const d = new Date().toISOString().slice(0, 10);
+            var element = document.getElementById("dateNow");
+            element.innerHTML = d;
+        });
+
+        function toggleMenu() {
+            let menu = document.getElementById("menu");
+            menu.classList.toggle("menu-open");
+        }
+
+        function profileHome() {
+            location.href = "index.html";
+        }
+
+        function profileMenu() {
+            location.href = "profile.html";
+        }
+
+
+        $("#viewPaymentModal").hide();
+          
+          // Open modal & prefill data
+          $("#viewBtn").click(function () {
+            $("#viewPaymentModal").show();
+          });
+
+          // Close modal
+          $(".close").click(function () {
+              $("#viewPaymentModal").fadeOut();
+          });
+
+          // Hide modal on outside click
+          $(window).click(function (event) {
+              if ($(event.target).is("#viewPaymentModal")) {
+                  $("#viewPaymentModal").fadeOut();
+              }
+          });
+    </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,maximum-scale=1,minimum-scale=1">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .profile-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-image: url(img/user.jpg);
+        background-size: cover;
+        margin: 0 auto;
+    }
+    .profile-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .profile-info {
+        font-size: 1rem;
+        color: #555;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+    .profile-actions {
+        margin-top: 20px;
+    }
+    .profile-actions button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .profile-actions button:hover {
+        background: #0056b3;
+    }
+
+    
+    .close {
+        float: right;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .slide-menu {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background: #666d74;
+        color: white;
+        padding: 20px;
+        transition: left 0.3s ease-in-out;
+    }
+    .slide-menu ul {
+        list-style: none;
+        margin-top: 20px;
+    }
+    .slide-menu ul li {
+        padding: 10px 0;
+        border-bottom: 1px solid #666d74;
+        cursor: pointer;
+    }
+    .slide-menu ul li:hover {
+        background:#666d74;
+    }
+    .close-menu {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .menu-open {
+        left: 0 !important;
+    }
+
+    .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Subtle dark background */
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            max-width: 90%;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .modal-content h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal-content label {
+            font-size: 0.95rem;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #f7f7f7;
+            transition: border 0.3s ease;
+        }
+
+        .modal-content input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .modal-content button {
+            background: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .close {
+            font-size: 24px;
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="info">
+                <p id="dateNow"></p>
+                <p>Hey! Mosima</p>
+                <p>Welcome to your profile</p>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="profile-container">
+            <div class="profile-img"></div>
+            <h2 class="profile-name" id="displayName">Mosima Kobe</h2>
+            <p class="profile-info">Email</p><p id="displayEmail">mosima@gmail.com</p>
+            <p class="profile-info">Phone Number</p><p id="displayPhone">0817378617</p>
+            
+            <div class="profile-actions">
+                <button id="editProfileBtn">Edit Profile</button>
+                <button style="background-color:#FF5733;">Logout</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="slide-menu" id="menu">
+        <span class="las la-times close-menu" onclick="toggleMenu()"></span>
+        <ul>
+            <li>Home</li>
+            <li>Profile</li>
+            <li>Settings</li>
+            <li>Logout</li>
+        </ul>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="bottom-inner">
+            <div class="bottom-main">
+                <div class="nav-items">
+                    <div class="nav-item" onclick="toggleMenu()">
+                        <span class="las la-bars"></span>
+                        <p>Menu</p>
+                    </div>
+                    <div class="nav-item">
+                        <span class="las la-wallet"></span>
+                        <p>Wallet</p>
+                    </div>
+                </div>
+                
+                <div class="nav-item-main" onclick="profileMenu()">
+                    <span class="las la-user"></span>
+                </div>
+                <div class="nav-items">
+                    <div class="nav-item">
+                        <span class="las la-object-group"></span>
+                        <p>Events</p>
+                    </div>
+                    <div class="nav-item" onclick="profileHome()">
+                        <span class="las la-home"></span>
+                        <p>Home</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form id="profileForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email">
+
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        
+            const d = new Date().toISOString().slice(0, 10);
+            $("#dateNow").text(d);
+
+
+            $("#profileModal").hide();
+          
+            // Open modal & prefill data
+            $("#editProfileBtn").click(function () {
+                $("#name").val($("#displayName").text());
+                $("#email").val($("#displayEmail").text());
+                $("#phone").val($("#displayPhone").text());
+                $("#profileModal").fadeIn();
+            });
+
+            // Close modal
+            $(".close").click(function () {
+                $("#profileModal").fadeOut();
+            });
+
+            // Hide modal on outside click
+            $(window).click(function (event) {
+                if ($(event.target).is("#profileModal")) {
+                    $("#profileModal").fadeOut();
+                }
+            });
+
+            // Handle form submission
+            $("#profileForm").submit(function (event) {
+                event.preventDefault();
+
+                // Update profile display
+                $("#displayName").text($("#name").val());
+                $("#displayEmail").text($("#email").val());
+                $("#displayPhone").text($("#phone").val());
+
+                alert("Profile updated successfully!");
+                $("#profileModal").fadeOut();
+            });
+        
+
+        function toggleMenu() {
+                $("#menu").toggleClass("menu-open");
+            }
+
+            function profileMenu() {
+                location.href = "profile.html";
+            }
+
+            function profileHome() {
+                location.href = "index.html";
+            }
+
+    </script>
+</body>
+</html>
